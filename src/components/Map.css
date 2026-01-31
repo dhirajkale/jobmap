@@ -1,0 +1,112 @@
+.map-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.map {
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.map-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-8);
+    background: var(--color-bg-glass);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-xl);
+}
+
+.map-loading p {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+}
+
+/* Map Legend */
+.map-legend {
+    position: absolute;
+    bottom: var(--space-6);
+    left: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+}
+
+.map-legend__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+}
+
+.map-legend__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.map-legend__dot--remote {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+.map-legend__dot--hybrid {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.map-legend__dot--office {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+/* Job Count */
+.map-count {
+    position: absolute;
+    bottom: var(--space-6);
+    right: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-lg);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    z-index: 100;
+}
+
+.map-count strong {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-bold);
+}
+
+/* Custom Cluster Icon */
+.custom-cluster-icon {
+    background: transparent !important;
+}
+
+@media (max-width: 768px) {
+    .map-legend {
+        bottom: 180px;
+        left: var(--space-3);
+        padding: var(--space-3);
+    }
+
+    .map-count {
+        bottom: 180px;
+        right: 60px;
+        padding: var(--space-2) var(--space-3);
+        font-size: var(--font-size-xs);
+    }
+}

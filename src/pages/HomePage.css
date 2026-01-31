@@ -1,0 +1,31 @@
+.home-page {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.home-page__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.home-page__map {
+    flex: 1;
+    margin-top: var(--header-height);
+    position: relative;
+}
+
+@media (min-width: 769px) {
+    .home-page__main {
+        margin-left: var(--sidebar-width);
+    }
+}
+
+@media (max-width: 768px) {
+    .home-page__map {
+        height: calc(100vh - var(--header-height));
+    }
+}

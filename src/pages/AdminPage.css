@@ -1,0 +1,304 @@
+.admin-page {
+    min-height: 100vh;
+    background: var(--color-bg-primary);
+}
+
+.admin-page__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.admin-page__content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: calc(var(--header-height) + var(--space-6)) var(--space-4) var(--space-8);
+}
+
+/* Header */
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+}
+
+.admin-header__left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.admin-header__back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-tertiary);
+    color: var(--color-text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.admin-header__back:hover {
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+}
+
+.admin-header__title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-1);
+}
+
+.admin-header__subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+/* Stats */
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+}
+
+.admin-stat {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    text-align: center;
+}
+
+.admin-stat__value {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--space-2);
+}
+
+.admin-stat__label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+/* Tabs */
+.admin-tabs {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-4);
+}
+
+.admin-tab {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-fast);
+}
+
+.admin-tab:hover {
+    color: var(--color-text-primary);
+    background: var(--color-bg-tertiary);
+}
+
+.admin-tab.active {
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+}
+
+.admin-tab__badge {
+    background: var(--color-error);
+    color: white;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+}
+
+/* Empty State */
+.admin-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-16) var(--space-4);
+    color: var(--color-text-tertiary);
+}
+
+.admin-empty h3 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: var(--space-4) 0 var(--space-2);
+}
+
+.admin-empty p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+/* Suggestions */
+.admin-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.admin-suggestion {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+}
+
+.admin-suggestion__content {
+    flex: 1;
+}
+
+.admin-suggestion__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+}
+
+.admin-suggestion__header h3 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+.admin-suggestion__company {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-3);
+}
+
+.admin-suggestion__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-3);
+}
+
+.admin-suggestion__meta span {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.admin-suggestion__link {
+    font-size: var(--font-size-xs);
+    color: var(--color-primary);
+    word-break: break-all;
+}
+
+.admin-suggestion__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    align-self: center;
+}
+
+/* Jobs Table */
+.admin-jobs__header {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.admin-jobs__table {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+}
+
+.admin-jobs__table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-jobs__table th,
+.admin-jobs__table td {
+    padding: var(--space-4);
+    text-align: left;
+    border-bottom: 1px solid var(--color-divider);
+}
+
+.admin-jobs__table th {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--color-bg-tertiary);
+}
+
+.admin-jobs__table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-jobs__table tr:hover td {
+    background: var(--color-bg-secondary);
+}
+
+.admin-jobs__title {
+    font-weight: var(--font-weight-medium);
+}
+
+.admin-jobs__date {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+}
+
+.admin-jobs__actions {
+    display: flex;
+    gap: var(--space-1);
+}
+
+@media (max-width: 768px) {
+    .admin-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .admin-suggestion {
+        flex-direction: column;
+    }
+
+    .admin-suggestion__actions {
+        flex-direction: row;
+        align-self: flex-start;
+    }
+
+    .admin-jobs__table {
+        overflow-x: auto;
+    }
+
+    .admin-jobs__table table {
+        min-width: 700px;
+    }
+}

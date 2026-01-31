@@ -1,0 +1,282 @@
+.tracker-page {
+    min-height: 100vh;
+    background: var(--color-bg-primary);
+}
+
+.tracker-page__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.tracker-page__content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: calc(var(--header-height) + var(--space-6)) var(--space-4) var(--space-8);
+}
+
+/* Header */
+.tracker-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+    gap: var(--space-4);
+}
+
+.tracker-header__left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.tracker-header__back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-tertiary);
+    color: var(--color-text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.tracker-header__back:hover {
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+}
+
+.tracker-header__title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-1);
+}
+
+.tracker-header__subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+/* View Toggle */
+.tracker-view-toggle {
+    display: flex;
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-1);
+}
+
+.tracker-view-toggle__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.tracker-view-toggle__btn:hover {
+    color: var(--color-text-primary);
+}
+
+.tracker-view-toggle__btn.active {
+    background: var(--color-bg-elevated);
+    color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Filters */
+.tracker-filters {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+    overflow-x: auto;
+    padding-bottom: var(--space-2);
+    -webkit-overflow-scrolling: touch;
+}
+
+.tracker-filters::-webkit-scrollbar {
+    height: 4px;
+}
+
+.tracker-filter {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+    border: 2px solid transparent;
+}
+
+.tracker-filter:hover {
+    background: var(--color-bg-secondary);
+}
+
+.tracker-filter.active {
+    background: var(--color-bg-elevated);
+    border-color: var(--filter-color);
+    color: var(--filter-color);
+}
+
+.tracker-filter__count {
+    background: var(--color-bg-tertiary);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+}
+
+.tracker-filter.active .tracker-filter__count {
+    background: var(--filter-color);
+    color: white;
+}
+
+/* Empty State */
+.tracker-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-16) var(--space-4);
+}
+
+.tracker-empty__icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--color-bg-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-6);
+}
+
+.tracker-empty h3 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-2);
+}
+
+.tracker-empty p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+}
+
+/* Job List */
+.tracker-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.tracker-job {
+    position: relative;
+}
+
+.tracker-job__status {
+    margin-bottom: var(--space-2);
+}
+
+.tracker-job__status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: white;
+}
+
+.tracker-job__actions {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+}
+
+.tracker-job__menu {
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    right: 0;
+    width: 200px;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    z-index: 10;
+}
+
+.tracker-job__menu-header {
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.tracker-job__menu-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+    text-align: left;
+    transition: background var(--transition-fast);
+}
+
+.tracker-job__menu-item:hover {
+    background: var(--color-bg-tertiary);
+}
+
+.tracker-job__menu-item--danger {
+    color: var(--color-error);
+}
+
+/* Map View */
+.tracker-map {
+    height: 600px;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+}
+
+.tracker-map__container {
+    width: 100%;
+    height: 100%;
+}
+
+.tracker-marker {
+    background: transparent !important;
+    border: none !important;
+}
+
+@media (max-width: 768px) {
+    .tracker-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .tracker-header__actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .tracker-map {
+        height: 400px;
+    }
+}
