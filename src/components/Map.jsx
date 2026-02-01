@@ -52,10 +52,12 @@ const createClusterCustomIcon = (cluster) => {
 export default function Map() {
     const { filteredJobs, mapCenter, mapZoom, theme, jobsLoading } = useStore()
 
-    // Use OpenStreetMap standard tiles
-    const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+    // Use CartoDB Voyager No Labels to hide administrative boundaries
+    const tileUrl = theme === 'dark'
+        ? 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png'
+        : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png'
 
-    const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    const attribution = '&copy; <a href="https://carto.com/attributions">CARTO</a>'
 
     return (
         <div className="map-container">
