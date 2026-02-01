@@ -115,7 +115,12 @@ export const useStore = create((set, get) => ({
                 .order('posted_date', { ascending: false })
 
             if (error) throw error
-            set({ jobs: data || [], filteredJobs: data || [] })
+
+            // If Supabase has data, use it. If empty, fallback to mock jobs.
+            const hasRealJobs = data && data.length > 0
+            const jobsToUse = hasRealJobs ? data : get().mockJobs
+
+            set({ jobs: jobsToUse, filteredJobs: jobsToUse })
         } catch (error) {
             console.error('Error fetching jobs:', error)
             // Use mock data if Supabase fails
