@@ -399,6 +399,16 @@ function generateMockJobs() {
         { name: 'Global Cargo', industry: 'logistics' },
         { name: 'Broadcast Now', industry: 'media' },
         { name: 'Quantum Code', industry: 'tech' },
+        { name: 'NextGen Auto', industry: 'tech' },
+        { name: 'Urban Eat', industry: 'retail' },
+        { name: 'Travel Sphere', industry: 'tech' },
+        { name: 'SecureNet', industry: 'tech' },
+        { name: 'Fashion Forward', industry: 'retail' },
+        { name: 'BuildRight', industry: 'tech' },
+        { name: 'AgriTech Solutions', industry: 'tech' },
+        { name: 'SpaceXplore', industry: 'tech' },
+        { name: 'OceanBlue', industry: 'logistics' },
+        { name: 'GameZone', industry: 'media' }
     ]
 
     const titles = [
@@ -427,6 +437,11 @@ function generateMockJobs() {
         { title: 'Business Analyst', level: 'mid' },
         { title: 'Data Analyst', level: 'entry' },
         { title: 'Machine Learning Engineer', level: 'senior' },
+        { title: 'Art Director', level: 'senior' },
+        { title: 'HR Specialist', level: 'mid' },
+        { title: 'Content Writer', level: 'mid' },
+        { title: 'Social Media Manager', level: 'mid' },
+        { title: 'Financial Analyst', level: 'mid' }
     ]
 
     const locations = [
@@ -441,6 +456,11 @@ function generateMockJobs() {
         { name: 'Gurgaon, India', lat: 28.4595, lng: 77.0266 },
         { name: 'Noida, India', lat: 28.5355, lng: 77.3910 },
         { name: 'Ahmedabad, India', lat: 23.0225, lng: 72.5714 },
+        { name: 'Jaipur, India', lat: 26.9124, lng: 75.7873 },
+        { name: 'Chandigarh, India', lat: 30.7333, lng: 76.7794 },
+        { name: 'Kochi, India', lat: 9.9312, lng: 76.2673 },
+        { name: 'Indore, India', lat: 22.7196, lng: 75.8577 },
+        { name: 'Lucknow, India', lat: 26.8467, lng: 80.9462 },
         // USA
         { name: 'San Francisco, USA', lat: 37.7749, lng: -122.4194 },
         { name: 'New York, USA', lat: 40.7128, lng: -74.0060 },
@@ -452,6 +472,9 @@ function generateMockJobs() {
         { name: 'Denver, USA', lat: 39.7392, lng: -104.9903 },
         { name: 'Miami, USA', lat: 25.7617, lng: -80.1918 },
         { name: 'Atlanta, USA', lat: 33.7490, lng: -84.3880 },
+        { name: 'Portland, USA', lat: 45.5152, lng: -122.6784 },
+        { name: 'San Diego, USA', lat: 32.7157, lng: -117.1611 },
+        { name: 'Dallas, USA', lat: 32.7767, lng: -96.7970 },
         // Europe
         { name: 'London, UK', lat: 51.5074, lng: -0.1278 },
         { name: 'Berlin, Germany', lat: 52.5200, lng: 13.4050 },
@@ -463,31 +486,47 @@ function generateMockJobs() {
         { name: 'Barcelona, Spain', lat: 41.3851, lng: 2.1734 },
         { name: 'Munich, Germany', lat: 48.1351, lng: 11.5820 },
         { name: 'Milan, Italy', lat: 45.4642, lng: 9.1900 },
+        { name: 'Lisbon, Portugal', lat: 38.7223, lng: -9.1393 },
+        { name: 'Warsaw, Poland', lat: 52.2297, lng: 21.0122 },
+        // Others
+        { name: 'Toronto, Canada', lat: 43.6532, lng: -79.3832 },
+        { name: 'Vancouver, Canada', lat: 49.2827, lng: -123.1207 },
+        { name: 'Sydney, Australia', lat: -33.8688, lng: 151.2093 },
+        { name: 'Melbourne, Australia', lat: -37.8136, lng: 144.9631 },
+        { name: 'Singapore', lat: 1.3521, lng: 103.8198 },
+        { name: 'Tokyo, Japan', lat: 35.6762, lng: 139.6503 },
+        { name: 'Dubai, UAE', lat: 25.2048, lng: 55.2708 },
     ]
 
     const remoteTypes = ['remote', 'hybrid', 'office']
 
     const descriptions = [
         'Join our dynamic team to build cutting-edge solutions that impact millions of users worldwide. We offer competitive compensation, excellent benefits, and a collaborative work environment.',
-        'We are looking for a passionate individual to help us scale our platform. You will work with modern technologies and have the opportunity to make significant contributions.',
-        'Be part of an innovative startup revolutionizing the industry. We value creativity, initiative, and a growth mindset. Great opportunity for career advancement.',
-        'Help us create beautiful, user-friendly experiences. Work alongside talented designers and engineers in a fast-paced, agile environment.',
-        'Drive strategic initiatives and lead cross-functional teams. This role offers high visibility and the chance to shape the company direction.',
+        'We are looking for a passionate individual to help us scale our platform. You will work with modern technologies and have the opportunity to make significant contributions to our core products.',
+        'Be part of an innovative startup revolutionizing the industry. We value creativity, initiative, and a growth mindset. Great opportunity for career advancement and personal growth.',
+        'Help us create beautiful, user-friendly experiences. Work alongside talented designers and engineers in a fast-paced, agile environment where your ideas actually matter.',
+        'Drive strategic initiatives and lead cross-functional teams. This role offers high visibility and the chance to shape the company direction while mentoring junior team members.',
+        'We are seeking a problem solver who enjoys tackling complex challenges. If you love clean code, best practices, and learning new things, this is the place for you.',
+        'Looking for a role with great work-life balance? We prioritize employee well-being while maintaining high standards of excellence. Remote-first culture.',
     ]
 
     const jobs = []
     const now = new Date()
 
-    for (let i = 0; i < 500; i++) {
+    // Generate 1200 jobs
+    for (let i = 0; i < 1200; i++) {
         const company = companies[Math.floor(Math.random() * companies.length)]
         const titleObj = titles[Math.floor(Math.random() * titles.length)]
         const location = locations[Math.floor(Math.random() * locations.length)]
         const remoteType = remoteTypes[Math.floor(Math.random() * remoteTypes.length)]
         const description = descriptions[Math.floor(Math.random() * descriptions.length)]
 
-        // Add some randomness to location
-        const latOffset = (Math.random() - 0.5) * 0.5
-        const lngOffset = (Math.random() - 0.5) * 0.5
+        // Add some randomness to location - use Gaussian-like distribution for better clustering
+        // This keeps distinct clusters but adds some spread
+        const r = 0.1 * Math.sqrt(Math.random()) // radius
+        const theta = Math.random() * 2 * Math.PI // angle
+        const latOffset = r * Math.cos(theta)
+        const lngOffset = r * Math.sin(theta)
 
         // Generate salary based on level
         let salaryMin, salaryMax
@@ -521,10 +560,12 @@ function generateMockJobs() {
                 salaryMax = 100000
         }
 
-        // Random posted date within last 30 days
-        const daysAgo = Math.floor(Math.random() * 30)
+        // Random posted date within last 45 days
+        const daysAgo = Math.floor(Math.random() * 45)
         const postedDate = new Date(now)
         postedDate.setDate(postedDate.getDate() - daysAgo)
+        // Add random time
+        postedDate.setHours(Math.floor(Math.random() * 24), Math.floor(Math.random() * 60))
 
         jobs.push({
             id: `mock-${i + 1}`,
