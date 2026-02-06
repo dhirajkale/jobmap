@@ -86,6 +86,24 @@ CREATE INDEX IF NOT EXISTS idx_job_suggestions_user ON job_suggestions(user_id);
 CREATE INDEX IF NOT EXISTS idx_job_suggestions_status ON job_suggestions(status);
 CREATE INDEX IF NOT EXISTS idx_profiles_admin ON profiles(is_admin) WHERE is_admin = true;
 
+-- =====================================================
+-- SECURITY DEFINER function to check if user is admin
+-- This bypasses RLS on the profiles table
+-- =====================================================
+CREATE OR REPLACE FUNCTION public.is_admin()
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  RETURN EXISTS (
+    SELECT 1 FROM profiles 
+    WHERE id = auth.uid() AND is_admin = true
+  );
+END;
+$$;
+
 -- Enable Row Level Security
 ALTER TABLE jobs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE saved_jobs ENABLE ROW LEVEL SECURITY;
@@ -95,6 +113,9 @@ ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 -- Drop existing policies if they exist (for idempotency)
 DROP POLICY IF EXISTS "Jobs are viewable by everyone" ON jobs;
 DROP POLICY IF EXISTS "Admins can manage jobs" ON jobs;
+DROP POLICY IF EXISTS "Admins can insert jobs" ON jobs;
+DROP POLICY IF EXISTS "Admins can update jobs" ON jobs;
+DROP POLICY IF EXISTS "Admins can delete jobs" ON jobs;
 DROP POLICY IF EXISTS "Users can view own saved jobs" ON saved_jobs;
 DROP POLICY IF EXISTS "Users can insert own saved jobs" ON saved_jobs;
 DROP POLICY IF EXISTS "Users can update own saved jobs" ON saved_jobs;
@@ -106,17 +127,36 @@ DROP POLICY IF EXISTS "Admins can update suggestions" ON job_suggestions;
 DROP POLICY IF EXISTS "Users can view own profile" ON profiles;
 DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
 DROP POLICY IF EXISTS "Profiles are created on signup" ON profiles;
+DROP POLICY IF EXISTS "Admins can view all profiles" ON profiles;
 
--- Jobs policies (public read for approved jobs)
+-- =====================================================
+-- JOBS POLICIES
+-- =====================================================
+
+-- Anyone can view approved jobs
 CREATE POLICY "Jobs are viewable by everyone" ON jobs 
   FOR SELECT USING (is_approved = true);
 
-CREATE POLICY "Admins can manage jobs" ON jobs 
-  FOR ALL USING (
-    EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.is_admin = true)
-  );
+-- Admins can view ALL jobs (including unapproved)
+CREATE POLICY "Admins can view all jobs" ON jobs
+  FOR SELECT USING (public.is_admin());
 
--- Saved jobs policies (users manage their own)
+-- Admins can insert jobs
+CREATE POLICY "Admins can insert jobs" ON jobs 
+  FOR INSERT WITH CHECK (public.is_admin());
+
+-- Admins can update jobs
+CREATE POLICY "Admins can update jobs" ON jobs 
+  FOR UPDATE USING (public.is_admin());
+
+-- Admins can delete jobs
+CREATE POLICY "Admins can delete jobs" ON jobs 
+  FOR DELETE USING (public.is_admin());
+
+-- =====================================================
+-- SAVED JOBS POLICIES
+-- =====================================================
+
 CREATE POLICY "Users can view own saved jobs" ON saved_jobs 
   FOR SELECT USING (auth.uid() = user_id);
 
@@ -129,7 +169,10 @@ CREATE POLICY "Users can update own saved jobs" ON saved_jobs
 CREATE POLICY "Users can delete own saved jobs" ON saved_jobs 
   FOR DELETE USING (auth.uid() = user_id);
 
--- Job suggestions policies
+-- =====================================================
+-- JOB SUGGESTIONS POLICIES
+-- =====================================================
+
 CREATE POLICY "Users can view own suggestions" ON job_suggestions 
   FOR SELECT USING (auth.uid() = user_id);
 
@@ -137,16 +180,15 @@ CREATE POLICY "Authenticated users can submit suggestions" ON job_suggestions
   FOR INSERT WITH CHECK (auth.uid() IS NOT NULL);
 
 CREATE POLICY "Admins can view all suggestions" ON job_suggestions 
-  FOR SELECT USING (
-    EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.is_admin = true)
-  );
+  FOR SELECT USING (public.is_admin());
 
 CREATE POLICY "Admins can update suggestions" ON job_suggestions 
-  FOR UPDATE USING (
-    EXISTS (SELECT 1 FROM profiles WHERE profiles.id = auth.uid() AND profiles.is_admin = true)
-  );
+  FOR UPDATE USING (public.is_admin());
 
--- Profiles policies
+-- =====================================================
+-- PROFILES POLICIES
+-- =====================================================
+
 CREATE POLICY "Users can view own profile" ON profiles 
   FOR SELECT USING (auth.uid() = id);
 
@@ -155,6 +197,14 @@ CREATE POLICY "Users can update own profile" ON profiles
 
 CREATE POLICY "Profiles are created on signup" ON profiles
   FOR INSERT WITH CHECK (auth.uid() = id);
+
+-- Admins can view all profiles (needed for admin dashboard)
+CREATE POLICY "Admins can view all profiles" ON profiles
+  FOR SELECT USING (public.is_admin());
+
+-- =====================================================
+-- TRIGGERS
+-- =====================================================
 
 -- Function to automatically update updated_at timestamp
 CREATE OR REPLACE FUNCTION public.update_updated_at_column()
@@ -210,12 +260,17 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
--- Grant permissions
+-- =====================================================
+-- PERMISSIONS
+-- =====================================================
+
 GRANT USAGE ON SCHEMA public TO anon, authenticated;
 GRANT SELECT ON jobs TO anon, authenticated;
 GRANT ALL ON saved_jobs TO authenticated;
 GRANT ALL ON job_suggestions TO authenticated;
 GRANT ALL ON profiles TO authenticated;
+GRANT ALL ON jobs TO authenticated;
+GRANT EXECUTE ON FUNCTION public.is_admin() TO authenticated;
 
 -- Success message
 SELECT 'JobMap database schema created successfully!' AS message;
