@@ -140,21 +140,29 @@ export default function AdminPage() {
                 posted_date: editingJob ? editingJob.posted_date : new Date().toISOString()
             }
 
+            console.log('Submitting job data:', jobData)
+
             if (editingJob) {
                 // Update existing job
-                const { error } = await supabase
+                console.log('Updating job ID:', editingJob.id)
+                const { data, error } = await supabase
                     .from('jobs')
                     .update(jobData)
                     .eq('id', editingJob.id)
+                    .select()
 
+                console.log('Update response:', { data, error })
                 if (error) throw error
                 toast.success('Job updated successfully!')
             } else {
                 // Insert new job
-                const { error } = await supabase
+                console.log('Inserting new job...')
+                const { data, error } = await supabase
                     .from('jobs')
                     .insert(jobData)
+                    .select()
 
+                console.log('Insert response:', { data, error })
                 if (error) throw error
                 toast.success('Job added successfully!')
             }
@@ -163,11 +171,15 @@ export default function AdminPage() {
             setJobForm(emptyJob)
             setEditingJob(null)
             setShowJobForm(false)
-            loadData()
+
+            // Force reload data
+            dataLoadedRef.current = false
+            await loadData()
             fetchJobs() // Refresh the main jobs list
         } catch (error) {
             console.error('Error saving job:', error)
-            toast.error('Failed to save job: ' + error.message)
+            console.error('Error details:', JSON.stringify(error, null, 2))
+            toast.error('Failed to save job: ' + (error.message || error.code || 'Unknown error'))
         } finally {
             setFormLoading(false)
         }
