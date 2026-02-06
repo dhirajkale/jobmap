@@ -157,10 +157,17 @@ export default function AdminPage() {
             } else {
                 // Insert new job
                 console.log('Inserting new job...')
+                // Ensure numbers
+                jobData.location_lat = Number(jobData.location_lat)
+                jobData.location_lng = Number(jobData.location_lng)
+                jobData.salary_min = jobData.salary_min ? Number(jobData.salary_min) : null
+                jobData.salary_max = jobData.salary_max ? Number(jobData.salary_max) : null
+
                 const { data, error } = await supabase
                     .from('jobs')
                     .insert(jobData)
-                    .select()
+                // Removing .select() to see if it fixes the network error
+                // We will fetch fresh data anyway
 
                 console.log('Insert response:', { data, error })
                 if (error) throw error
