@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -58,11 +58,16 @@ export default function AdminPage() {
     const [jobForm, setJobForm] = useState(emptyJob)
     const [formLoading, setFormLoading] = useState(false)
 
+    // Track if initial data has been loaded (prevents re-fetch on tab change)
+    const dataLoadedRef = useRef(false)
+
     // Check if user is admin
     const isAdmin = profile?.is_admin === true
 
     useEffect(() => {
-        if (user && isAdmin) {
+        // Only load data once when user is admin and data hasn't been loaded yet
+        if (user && isAdmin && !dataLoadedRef.current) {
+            dataLoadedRef.current = true
             loadData()
         } else if (!authLoading && !user) {
             setLoading(false)
@@ -70,6 +75,7 @@ export default function AdminPage() {
             setLoading(false)
         }
     }, [user, isAdmin, authLoading])
+
 
     const loadData = async () => {
         setLoading(true)
