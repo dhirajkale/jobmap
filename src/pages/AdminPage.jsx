@@ -156,21 +156,36 @@ export default function AdminPage() {
                 toast.success('Job updated successfully!')
             } else {
                 // Insert new job
-                console.log('Inserting new job...')
+                console.log('Inserting new job via FETCH...')
+
                 // Ensure numbers
                 jobData.location_lat = Number(jobData.location_lat)
                 jobData.location_lng = Number(jobData.location_lng)
                 jobData.salary_min = jobData.salary_min ? Number(jobData.salary_min) : null
                 jobData.salary_max = jobData.salary_max ? Number(jobData.salary_max) : null
 
-                const { data, error } = await supabase
-                    .from('jobs')
-                    .insert(jobData)
-                // Removing .select() to see if it fixes the network error
-                // We will fetch fresh data anyway
+                // Bypass supabase-js client and use direct Fetch API
+                const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+                const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-                console.log('Insert response:', { data, error })
-                if (error) throw error
+                const response = await fetch(`${supabaseUrl}/rest/v1/jobs`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': supabaseKey,
+                        'Authorization': `Bearer ${supabaseKey}`,
+                        'Prefer': 'return=minimal' // Don't ask for a return body
+                    },
+                    body: JSON.stringify(jobData)
+                })
+
+                if (!response.ok) {
+                    const errorText = await response.text()
+                    console.error('Fetch error:', errorText)
+                    throw new Error(`Insert failed: ${response.status} ${response.statusText} - ${errorText}`)
+                }
+
+                console.log('Insert successful via fetch')
                 toast.success('Job added successfully!')
             }
 
